@@ -1,0 +1,35 @@
+# General
+.DS_Store
+.idea/
+*.iml
+*.log
+
+# Flutter/Dart specific
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/.generated_plugin_registrant.dart
+**/build/
+**/flutter_export_environment.sh
+
+# VSCode specific
+.vscode/
+
+# Pub related
+**/pubspec.lock
+**/.packages
+**/.pub-cache/
+
+# Android/iOS specific
+**/android/.gradle/
+**/android/app/debug/
+**/android/app/build/
+**/ios/.symlinks/
+**/ios/Flutter/.last_build_id
+**/ios/Pods/
+**/ios/Runner.xcworkspace/xcshareddata/
+**/ios/Runner.xcworkspace/xcuserdata/
+
+# Generated files
+lib/generated_plugin_registrant.dart
