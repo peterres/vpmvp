@@ -50,29 +50,22 @@ class _ActiveProtestScreenState extends State<ActiveProtestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Active Protest', textAlign: TextAlign.center),
+        title: Text(widget.protest.title,
+            textAlign: TextAlign.center), // Updated to use protest title
       ),
       body: Center(
         // Centering content
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              widget.protest.title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-              textAlign: TextAlign.center,
-            ),
             // Dynamic visual element placeholder
-            // Center(
-            //     child: FadedEdgeImage(
-            //         imagePath: 'assets/images/active_protest.png', size: 120)),
             Center(child: AnimatedHeartbeatImage()),
             Text(
               '$_currentParticipantCount',
               style: TextStyle(
                   fontSize: 48,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue),
+                  color: Colors.red), // Changed color for visibility
             ),
             ElevatedButton(
               onPressed: () {

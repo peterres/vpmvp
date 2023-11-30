@@ -30,38 +30,27 @@ class _AnimatedHeartbeatImageState extends State<AnimatedHeartbeatImage>
   Widget build(BuildContext context) {
     return ScaleTransition(
       scale: _animation,
-      child: ClipOval(
-        child: Container(
-          width: 120, // Adjust the size as needed
-          height: 120, // Adjust the size as needed
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: AssetImage('assets/images/active_protest.png'),
+      child: Container(
+        width: 100, // Adjust the size as needed
+        height: 100, // Adjust the size as needed
+        child: ShaderMask(
+          shaderCallback: (rect) {
+            return RadialGradient(
+              radius: 0.5, // Adjust the radius for the gradient effect
+              center: Alignment.center,
+              colors: [
+                Colors.transparent,
+                Colors.black.withOpacity(0.5), // Adjust opacity for fade effect
+              ],
+              stops: [0.5, 1.0], // Adjust stops for a smoother transition
+            ).createShader(
+                Rect.fromCircle(center: rect.center, radius: rect.width / 2));
+          },
+          blendMode: BlendMode.dstOut,
+          child: ClipOval(
+            child: Image.asset(
+              'assets/images/active_protest.png',
               fit: BoxFit.cover,
-            ),
-          ),
-          child: ShaderMask(
-            shaderCallback: (rect) {
-              return RadialGradient(
-                radius: 1.5,
-                colors: [
-                  Colors.white,
-                  Colors.white,
-                  Colors.transparent,
-                ],
-                stops: [0, 0.7, 1],
-                center: FractionalOffset.center,
-              ).createShader(rect);
-            },
-            blendMode: BlendMode.dstOut,
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/active_protest.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
             ),
           ),
         ),
