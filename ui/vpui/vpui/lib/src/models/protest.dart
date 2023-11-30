@@ -6,6 +6,7 @@ class Protest {
   final int participantCountActive;
   final bool isActive;
   final bool isFinished;
+  final int durationInSeconds;
 
   Protest({
     required this.id,
@@ -15,6 +16,7 @@ class Protest {
     required this.participantCountActive,
     required this.isActive,
     required this.isFinished,
+    required this.durationInSeconds, // Constructor parameter
   });
 
   factory Protest.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class Protest {
       participantCountActive: json['participantCountActive'],
       isActive: json['isActive'],
       isFinished: json['isFinished'],
+      durationInSeconds: json['durationInSeconds'], // JSON parsing
     );
   }
 }

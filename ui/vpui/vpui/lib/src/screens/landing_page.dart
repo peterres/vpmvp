@@ -19,10 +19,18 @@ class _LandingPageState extends State<LandingPage> {
     futureProtests = protestService.fetchProtests();
   }
 
-  List<Protest> filterProtests(List<Protest> protests, bool showPast) {
-    return protests
-        .where((p) => showPast ? p.isFinished : !p.isFinished)
-        .toList();
+  List<Protest> filterAndSortProtests(List<Protest> protests, bool showPast) {
+    List<Protest> filteredProtests =
+        protests.where((p) => showPast ? p.isFinished : !p.isFinished).toList();
+
+    // Sorting logic: Live protests first, then by date
+    filteredProtests.sort((a, b) {
+      if (a.isActive && !b.isActive) return -1;
+      if (!a.isActive && b.isActive) return 1;
+      return a.date.compareTo(b.date);
+    });
+
+    return filteredProtests;
   }
 
   @override
@@ -60,7 +68,7 @@ class _LandingPageState extends State<LandingPage> {
                   return Center(child: Text('No protests found'));
                 } else {
                   List<Protest> filteredProtests =
-                      filterProtests(snapshot.data!, showPastProtests);
+                      filterAndSortProtests(snapshot.data!, showPastProtests);
                   return ListView.builder(
                     itemCount: filteredProtests.length,
                     itemBuilder: (context, index) {
