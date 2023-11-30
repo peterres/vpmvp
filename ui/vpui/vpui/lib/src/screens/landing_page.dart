@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import '../widgets/protest_list_item.dart';
 import '../services/protest_service.dart';
 import '../models/protest.dart';
@@ -10,13 +11,45 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   final ProtestService protestService = ProtestService();
-  late Future<List<Protest>> futureProtests;
+  List<Protest> protests = [];
   bool showPastProtests = false;
+  bool isLoading = true;
+  bool _loadingFailed = false;
+  Timer? _refreshTimer;
 
   @override
   void initState() {
     super.initState();
-    futureProtests = protestService.fetchProtests();
+    _fetchProtests();
+    _startAutoRefresh();
+  }
+
+  void _startAutoRefresh() {
+    _refreshTimer = Timer.periodic(Duration(seconds: 5), (Timer t) {
+      _fetchProtests();
+    });
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _fetchProtests() async {
+    try {
+      List<Protest> fetchedProtests = await protestService.fetchProtests();
+      setState(() {
+        protests = fetchedProtests;
+        isLoading = false;
+        _loadingFailed = false;
+      });
+    } catch (error) {
+      setState(() {
+        _loadingFailed = true;
+        isLoading = false;
+      });
+    }
   }
 
   List<Protest> filterAndSortProtests(List<Protest> protests, bool showPast) {
@@ -35,6 +68,9 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<Protest> filteredProtests =
+        filterAndSortProtests(protests, showPastProtests);
+
     return Scaffold(
       appBar: AppBar(title: Text('Virtual Protests')),
       body: Column(
@@ -44,43 +80,56 @@ class _LandingPageState extends State<LandingPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  onPressed: () => setState(() => showPastProtests = false),
-                  child: Text('New'),
-                ),
+                _listButton('New', !showPastProtests),
                 SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () => setState(() => showPastProtests = true),
-                  child: Text('Past'),
-                ),
+                _listButton('Past', showPastProtests),
               ],
             ),
           ),
           Expanded(
-            child: FutureBuilder<List<Protest>>(
-              future: futureProtests,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No protests found'));
-                } else {
-                  List<Protest> filteredProtests =
-                      filterAndSortProtests(snapshot.data!, showPastProtests);
-                  return ListView.builder(
-                    itemCount: filteredProtests.length,
-                    itemBuilder: (context, index) {
-                      return ProtestListItem(protest: filteredProtests[index]);
-                    },
-                  );
-                }
-              },
-            ),
+            child: isLoading
+                ? Center(child: CircularProgressIndicator())
+                : _loadingFailed
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Failed to load protests. Please try again.'),
+                            ElevatedButton(
+                              onPressed: _fetchProtests,
+                              child: Text('Retry'),
+                            ),
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: filteredProtests.length,
+                        itemBuilder: (context, index) {
+                          return ProtestListItem(
+                              protest: filteredProtests[index]);
+                        },
+                      ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _listButton(String title, bool isActive) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          showPastProtests = (title == 'Past');
+          isLoading = true;
+          _fetchProtests();
+        });
+      },
+      style: ElevatedButton.styleFrom(
+        primary: isActive ? Colors.blue : Colors.grey,
+        onPrimary:
+            isActive ? Colors.white : Colors.black, // Text color for contrast
+      ),
+      child: Text(title),
     );
   }
 }
