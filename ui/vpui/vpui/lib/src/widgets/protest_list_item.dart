@@ -56,17 +56,36 @@ class _ProtestListItemState extends State<ProtestListItem> {
   @override
   Widget build(BuildContext context) {
     String formattedDate =
-        DateFormat('yyyy-MM-dd – HH:mm').format(widget.protest.date.toLocal());
+        DateFormat('dd.MM.yyyy HH:mm').format(widget.protest.date.toLocal());
+    String durationLabel =
+        widget.protest.isActive ? "Remaining: " : "Event Length: ";
+
     return Card(
+      color: widget.protest.isActive
+          ? Colors.lightGreen[100]
+          : Colors.white, // Distinct background for live protests
       child: ListTile(
-        title: Text(widget.protest.title),
-        subtitle: Text('$formattedDate - Duration: $formattedDuration'),
+        title: Text(
+          widget.protest.title,
+          style: TextStyle(fontWeight: FontWeight.bold), // Bold title
+        ),
+        subtitle: Text(
+            formattedDate +
+                (widget.protest.isFinished
+                    ? ''
+                    : ' - $durationLabel$formattedDuration'),
+            style: widget.protest.isActive
+                ? TextStyle(fontWeight: FontWeight.bold)
+                : TextStyle(fontWeight: FontWeight.normal)),
         trailing: widget.protest.isActive
             ? Chip(
-                label: Text('Live',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white)),
-                backgroundColor: Colors.red)
+                label: Text(
+                  'Live',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+                backgroundColor: Colors.red,
+              )
             : null,
       ),
     );
