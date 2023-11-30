@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/protest.dart';
 import '../widgets/animated_heartbeat_image.dart';
+import '../widgets/faded_edge_image.dart';
 import '../services/websocket_service.dart';
 
 class ActiveProtestScreen extends StatefulWidget {
@@ -62,7 +63,10 @@ class _ActiveProtestScreenState extends State<ActiveProtestScreen> {
               textAlign: TextAlign.center,
             ),
             // Dynamic visual element placeholder
-            Center(child: AnimatedHeartbeatImage()),
+            Center(
+                // child: FadedEdgeImage(
+                //     imagePath: 'assets/images/active_protest.png', size: 200)),
+                child: AnimatedHeartbeatImage()),
             Text(
               '$_currentParticipantCount',
               style: TextStyle(

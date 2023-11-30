@@ -30,16 +30,18 @@ class _AnimatedHeartbeatImageState extends State<AnimatedHeartbeatImage>
   Widget build(BuildContext context) {
     return ScaleTransition(
       scale: _animation,
-      child: Container(
-        width: 100, // Adjust the size as needed
-        height: 100, // Adjust the size as needed
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          image: DecorationImage(
-            image: AssetImage('assets/images/active_protest.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
+      child: ShaderMask(
+        shaderCallback: (rect) {
+          return RadialGradient(
+            radius: 0.5,
+            colors: [Colors.black, Colors.transparent],
+            stops: [0.8, 1.0], // Adjust these stops for desired fade effect
+            center: FractionalOffset.center,
+          ).createShader(rect);
+        },
+        blendMode: BlendMode.dstOut,
+        child: Image.asset('assets/images/active_protest.png',
+            width: 200, height: 200),
       ),
     );
   }
