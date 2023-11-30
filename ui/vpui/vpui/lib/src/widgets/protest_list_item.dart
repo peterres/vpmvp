@@ -1,6 +1,7 @@
 import 'dart:async'; // Import for Timer
 import 'package:flutter/material.dart';
 import '../models/protest.dart';
+import '../screens/protest_details_screen.dart';
 import 'package:intl/intl.dart';
 
 class ProtestListItem extends StatefulWidget {
@@ -87,6 +88,15 @@ class _ProtestListItemState extends State<ProtestListItem> {
                 backgroundColor: Colors.red,
               )
             : null,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  ProtestDetailsScreen(protest: widget.protest),
+            ),
+          );
+        }, // onTap logic for navigation
       ),
     );
   }

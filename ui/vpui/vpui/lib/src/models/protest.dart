@@ -1,6 +1,7 @@
 class Protest {
   final String id;
   final String title;
+  final String description;
   final DateTime date;
   final int participantCountAll;
   final int participantCountActive;
@@ -11,6 +12,7 @@ class Protest {
   Protest({
     required this.id,
     required this.title,
+    required this.description,
     required this.date,
     required this.participantCountAll,
     required this.participantCountActive,
@@ -23,6 +25,7 @@ class Protest {
     return Protest(
       id: json['id'],
       title: json['title'],
+      description: json['description'],
       date: DateTime.parse(json['date']),
       participantCountAll: json['participantCountAll'],
       participantCountActive: json['participantCountActive'],

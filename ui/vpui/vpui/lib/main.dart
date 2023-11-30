@@ -9,7 +9,7 @@ class VirtualProtestApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Virtual Protests',
+      title: 'Unwanted App - Virtual Protests',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         colorScheme: ColorScheme.fromSwatch().copyWith(
