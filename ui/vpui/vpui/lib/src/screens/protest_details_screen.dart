@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../models/protest.dart';
+import '../screens/active_protest_screen.dart';
 import 'package:intl/intl.dart';
 
 class ProtestDetailsScreen extends StatefulWidget {
@@ -104,7 +105,13 @@ class _ProtestDetailsScreenState extends State<ProtestDetailsScreen> {
             if (widget.protest.isActive)
               ElevatedButton(
                 onPressed: () {
-                  // TODO: Implement join action
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ActiveProtestScreen(protest: widget.protest),
+                    ),
+                  );
                 },
                 child: Text('Join Protest'),
               ),
