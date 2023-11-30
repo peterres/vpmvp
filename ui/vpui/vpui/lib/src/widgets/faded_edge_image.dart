@@ -16,7 +16,7 @@ class FadedEdgeImage extends StatelessWidget {
         child: BackdropFilter(
           filter: ui.ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
           child: Opacity(
-            opacity: 0.9,
+            opacity: 0.1,
             child: Image.asset(
               imagePath,
               fit: BoxFit.cover,

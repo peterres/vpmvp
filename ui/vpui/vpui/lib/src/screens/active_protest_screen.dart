@@ -63,10 +63,10 @@ class _ActiveProtestScreenState extends State<ActiveProtestScreen> {
               textAlign: TextAlign.center,
             ),
             // Dynamic visual element placeholder
-            Center(
-                // child: FadedEdgeImage(
-                //     imagePath: 'assets/images/active_protest.png', size: 200)),
-                child: AnimatedHeartbeatImage()),
+            // Center(
+            //     child: FadedEdgeImage(
+            //         imagePath: 'assets/images/active_protest.png', size: 120)),
+            Center(child: AnimatedHeartbeatImage()),
             Text(
               '$_currentParticipantCount',
               style: TextStyle(
