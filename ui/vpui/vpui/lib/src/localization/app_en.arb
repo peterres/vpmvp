@@ -1,6 +1,6 @@
 {
-  "appTitle": "vpui",
+  "appTitle": "Unwanted App",
   "@appTitle": {
-    "description": "The title of the application"
+    "description": "Unwanted App - should never be needed"
   }
 }

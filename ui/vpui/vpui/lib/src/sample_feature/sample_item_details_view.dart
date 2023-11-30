@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../service/api_service.dart'; // Import the ApiService
+import '../services/api_service.dart'; // Import the ApiService
 
 class SampleItemDetailsView extends StatefulWidget {
   const SampleItemDetailsView({Key? key}) : super(key: key);
