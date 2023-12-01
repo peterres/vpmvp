@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/protest.dart';
 import '../widgets/animated_heartbeat_image.dart';
-import '../widgets/faded_edge_image.dart';
 import '../services/websocket_service.dart';
 
 class ActiveProtestScreen extends StatefulWidget {
@@ -50,32 +49,36 @@ class _ActiveProtestScreenState extends State<ActiveProtestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.protest.title,
-            textAlign: TextAlign.center), // Updated to use protest title
+        title: Text(widget.protest.title, textAlign: TextAlign.center),
       ),
-      body: Center(
-        // Centering content
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            // Dynamic visual element placeholder
-            Center(child: AnimatedHeartbeatImage()),
-            Text(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment
+            .spaceBetween, // Aligns widgets vertically with space between them
+        children: <Widget>[
+          Expanded(
+            child: Center(
+              child: AnimatedHeartbeatImage(),
+            ),
+          ),
+          Center(
+            child: Text(
               '$_currentParticipantCount',
               style: TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red), // Changed color for visibility
+                  fontSize: 48, fontWeight: FontWeight.bold, color: Colors.red),
             ),
-            ElevatedButton(
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+                bottom: 20), // Add padding at the bottom for the button
+            child: ElevatedButton(
               onPressed: () {
                 _leaveProtest();
-                Navigator.pop(context); // Navigate back to details screen
+                Navigator.pop(context);
               },
               child: Text('Leave Protest'),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
